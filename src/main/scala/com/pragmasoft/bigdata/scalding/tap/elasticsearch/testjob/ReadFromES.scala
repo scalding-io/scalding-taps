@@ -1,6 +1,7 @@
-package com.pragmasoft.bigdata.scalding.tap.elasticsearch
+package com.pragmasoft.bigdata.scalding.tap.elasticsearch.testjob
 
 import com.twitter.scalding.{Csv, Job, Args}
+import com.pragmasoft.bigdata.scalding.tap.elasticsearch.EsSource
 
 class ReadFromES(args: Args) extends Job(args) {
 
