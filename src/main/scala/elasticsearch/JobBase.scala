@@ -1,7 +1,6 @@
 package elasticsearch
 
 import com.twitter.scalding._
-import org.elasticsearch.hadoop.cfg.ConfigurationOptions
 
 class JobBase(args: Args) extends Job(args) {
 

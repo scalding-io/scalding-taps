@@ -3,7 +3,6 @@ package elasticsearch
 import org.elasticsearch.hadoop.cascading._
 import com.twitter.scalding._
 
-import cascading.tap.SinkMode
 import cascading.tap.Tap
 import cascading.tuple.Fields
 

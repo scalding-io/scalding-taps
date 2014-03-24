@@ -1,7 +1,6 @@
 package elasticsearch
 
 import com.twitter.scalding._
-import cascading.tuple.Fields
 import java.util.Properties
 import org.elasticsearch.hadoop.cfg.ConfigurationOptions
 
