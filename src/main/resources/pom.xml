@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>scalding-taps_2.10</artifactId>
+    <groupId>io.scalding</groupId>
+    <version>0.2</version>
+
+    <packaging>jar</packaging>
+
+    <name>Scalading Taps</name>
+
+    <description>Additional taps for Scalding</description>
+
+    <organization>
+        <name>io.scalding</name>
+    </organization>
+    <url>https://github.com/scalding-io/scalding-taps</url>
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <id>galarragas</id>
+            <name>Stefano Galarraga</name>
+        </developer>
+        <developer>
+            <id>antwnis</id>
+            <name>Antonios Chalkiopoulos</name>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <id>conjars</id>
+            <name>Conjars Repository</name>
+            <url>http://conjars.org/repo</url>
+        </repository>
+
+        <repository>
+            <id>SonatypeOss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </repository>
+
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.springsource.org/libs-milestone/</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <spray-client.version>1.2.0</spray-client.version>
+        <akka-actor.version>2.2.3</akka-actor.version>
+        <spray-json.version>1.2.5</spray-json.version>
+        <scala.version>2.10.3</scala.version>
+    </properties>
+
+    <modules>
+        <module>spray-funnel</module>
+    </modules>
+
+
+    <dependencies>
+        <!-- Scala -->
+        <dependency>
+            <groupId>org.scala-lang</groupId>
+            <artifactId>scala-library</artifactId>
+            <version>${scala.version}</version>
+        </dependency>
+    </dependencies>
+
+
+</project>

@@ -1,13 +1,14 @@
-package com.pragmasoft.bigdata.scalding.tap.elasticsearch
+package io.scalding.taps.elasticsearch
 
 import com.twitter.scalding._
 import cascading.tap.Tap
 import com.twitter.scalding.Local
-import org.elasticsearch.hadoop.cascading.EsTap
+import org.elasticsearch.hadoop.cascading.{CascadingLocalFieldExtractor, EsTap}
 import cascading.tuple.Fields
 import java.util.Properties
 import org.elasticsearch.hadoop.cfg.ConfigurationOptions
 import ConfigurationOptions._
+import scala.collection.JavaConversions._
 
 
 object EsSource {
@@ -55,11 +56,16 @@ case class EsSource(
 
   def withSettings(settings: Properties): EsSource = copy(settings = Some(settings))
 
+  def withOverrideSettings(overrides: Properties) : EsSource = copy(
+    settings = overrideSettings { baseSettings => baseSettings.putAll(overrides) }
+  )
+
   def withWriteMode(writeMode: EsWriteMode): EsSource = copy(settings = overrideSettings {
     _.setProperty(ES_WRITE_OPERATION, writeMode.writeOperationParam)
   })
 
-  def withMappingId(mappingId: String, mappingIdExtractorClassName: Option[String] = None): EsSource =
+  def withMappingId(mappingId: String,
+                              mappingIdExtractorClassName: Option[String] = Some(classOf[CascadingLocalFieldExtractor].getName) ): EsSource =
     copy(
       settings = overrideSettings {
         props =>
@@ -70,6 +76,17 @@ case class EsSource(
       }
     )
 
+  def withMappingParent(mappingParent: String,
+                                  mappingParentExtractorClassName: Option[String] = Some(classOf[CascadingLocalFieldExtractor].getName)): EsSource =
+    copy(
+      settings = overrideSettings {
+        props =>
+          props.setProperty(ES_MAPPING_PARENT, mappingParent)
+          mappingParentExtractorClassName.foreach {
+            extractorClass => props.setProperty(ES_MAPPING_PARENT_EXTRACTOR_CLASS, extractorClass)
+          }
+      }
+    )
 
   def createEsTap: Tap[_, _, _] =
     new EsTap(esHost.getOrElse(null), esPort.getOrElse(-1), esResource, query.getOrElse(null), fields.getOrElse(null), settings.getOrElse(null))

@@ -1,6 +1,6 @@
 name := "scalding-taps"
 
-organization := "com.pragmasoft"
+organization := "io.scalding"
 
 version := "0.2"
 

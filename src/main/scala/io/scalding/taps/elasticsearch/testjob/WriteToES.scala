@@ -1,7 +1,7 @@
-package com.pragmasoft.bigdata.scalding.tap.elasticsearch.testjob
+package io.scalding.taps.elasticsearch.testjob
 
 import com.twitter.scalding.{Csv, IterableSource, Job, Args}
-import com.pragmasoft.bigdata.scalding.tap.elasticsearch.EsSource
+import io.scalding.taps.elasticsearch.EsSource
 
 object WriteToES {
   val testIndex = "test"
