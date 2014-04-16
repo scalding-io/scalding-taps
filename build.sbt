@@ -7,7 +7,7 @@ version := "0.2"
 scalaVersion := "2.10.2"
 
 libraryDependencies ++= Seq(
-    "org.elasticsearch" % "elasticsearch-hadoop" % "1.3.0.BUILD-SNAPSHOT-FROM-MASTER",
+    "org.elasticsearch" % "elasticsearch-hadoop" % "1.3.0.M3",
     "com.twitter" %% "scalding-core" % "0.8.11",
     "org.apache.hadoop" % "hadoop-common" % "2.0.0-cdh4.3.1",
     "org.apache.hadoop" % "hadoop-core" % "2.0.0-mr1-cdh4.3.1",
@@ -22,6 +22,5 @@ libraryDependencies ++= Seq(
 resolvers ++= Seq(
   "Conjars" at "http://conjars.org/repo",
   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-  "spring-milestones" at "http://repo.springsource.org/libs-milestone/",
   "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository"
 )
