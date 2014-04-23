@@ -3,7 +3,7 @@ package io.scalding.taps.elasticsearch
 import com.twitter.scalding._
 import cascading.tap.Tap
 import com.twitter.scalding.Local
-import org.elasticsearch.hadoop.cascading.{CascadingLocalFieldExtractor, EsTap}
+import org.elasticsearch.hadoop.cascading.{CascadingFieldExtractor, EsTap}
 import cascading.tuple.Fields
 import java.util.Properties
 import org.elasticsearch.hadoop.cfg.ConfigurationOptions
@@ -65,7 +65,7 @@ case class EsSource(
   })
 
   def withMappingId(mappingId: String,
-                              mappingIdExtractorClassName: Option[String] = Some(classOf[CascadingLocalFieldExtractor].getName) ): EsSource =
+                              mappingIdExtractorClassName: Option[String] = Some(classOf[CascadingFieldExtractor].getName) ): EsSource =
     copy(
       settings = overrideSettings {
         props =>
@@ -77,7 +77,7 @@ case class EsSource(
     )
 
   def withMappingParent(mappingParent: String,
-                                  mappingParentExtractorClassName: Option[String] = Some(classOf[CascadingLocalFieldExtractor].getName)): EsSource =
+                                  mappingParentExtractorClassName: Option[String] = Some(classOf[CascadingFieldExtractor].getName)): EsSource =
     copy(
       settings = overrideSettings {
         props =>
