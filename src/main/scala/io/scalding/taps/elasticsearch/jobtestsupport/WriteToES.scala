@@ -1,4 +1,4 @@
-package io.scalding.taps.elasticsearch.testjob
+package io.scalding.taps.elasticsearch.jobtestsupport
 
 import com.twitter.scalding.{Csv, IterableSource, Job, Args}
 import io.scalding.taps.elasticsearch.EsSource

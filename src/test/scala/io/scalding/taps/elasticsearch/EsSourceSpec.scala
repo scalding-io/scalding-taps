@@ -5,7 +5,7 @@ import org.scalatest.Matchers
 import com.github.tlrx.elasticsearch.test.EsSetup
 import com.github.tlrx.elasticsearch.test.EsSetup._
 import com.twitter.scalding.Tool
-import io.scalding.taps.elasticsearch.testjob.WriteToES
+import io.scalding.taps.elasticsearch.jobtestsupport.WriteToES
 import java.io.{FileWriter, BufferedWriter, File}
 import org.elasticsearch.action.get.{GetResponse, GetRequest}
 import WriteToES._
