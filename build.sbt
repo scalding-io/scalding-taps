@@ -17,7 +17,8 @@ libraryDependencies ++= Seq(
     "cascading" % "cascading-hadoop" % "2.5.2",
     "cascading" % "cascading-local" % "2.5.2",
     "com.github.tlrx" % "elasticsearch-test" % "0.0.8" % "test",
-    "org.scalatest" %% "scalatest" % "2.1.0" % "test"
+    "org.scalatest" %% "scalatest" % "2.1.0" % "test",
+    "com.novocode" % "junit-interface" % "0.9" % "test"
 )
 
 resolvers ++= Seq(
