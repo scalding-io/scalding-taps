@@ -18,7 +18,7 @@ object WriteToES {
 
 import WriteToES._
 class WriteToES(args: Args) extends Job(args) {
-  val source = Csv(args("input"), ",", inputFields).read
+  val source = Csv(args("input"), fields = inputFields).read
 
   val sinkAge = EsSource(ageResource).withFields(('name, 'age)).withMappingId(mappingId = "name")
   val sinkAddress = EsSource(addressResource).withFields(('name, 'address)).withMappingId(mappingId = "name")
