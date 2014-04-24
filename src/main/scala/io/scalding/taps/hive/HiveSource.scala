@@ -5,24 +5,15 @@ import cascading.hcatalog.{HCatTap, HCatScheme}
 import cascading.tap.{Tap, SinkMode}
 import cascading.tuple.Fields
 import com.twitter.scalding.Local
-
-
-object HiveSource {
-  def apply(table: String,
-            sinkMode: SinkMode,
-            db: Option[String] = None,
-            filter: Option[String] = None,
-            hCatScheme: Option[HCatScheme] = None,
-            path: Option[String] = None,
-            sourceFields : Option[Fields] = None) : HiveSource = new HiveSource(table, sinkMode, db, filter, hCatScheme, path, sourceFields)
-}
+import cascading.scheme.Scheme
+import org.apache.hadoop.mapred._
 
 case class HiveSource(
                   table: String,
                   sinkMode: SinkMode,
                   db: Option[String] = None,
                   filter: Option[String] = None,
-                  hCatScheme: Option[HCatScheme] = None,
+                  hCatScheme: Option[HiveSourceScheme] = None,
                   path: Option[String] = None,
                   sourceFields : Option[Fields] = None
                   ) extends Source {
@@ -50,4 +41,6 @@ case class HiveSource(
   def withSourceFields(fields: Fields) = copy(sourceFields = Some(fields))
   def withDb(db: String) = copy(db = Some(db))
   def withFilter(filter: String) = copy(filter = Some(filter))
+  def withHCatScheme(scheme: HiveSourceScheme) = copy(hCatScheme = Some(scheme))
+
 }

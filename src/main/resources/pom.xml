@@ -6,7 +6,7 @@
 
     <artifactId>scalding-taps_2.10</artifactId>
     <groupId>io.scalding</groupId>
-    <version>0.3</version>
+    <version>0.4</version>
 
     <packaging>jar</packaging>
 
