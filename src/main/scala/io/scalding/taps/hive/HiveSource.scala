@@ -36,11 +36,19 @@ case class HiveSource(
     mode match {
       case Local(_) | Hdfs(_, _) => createHCatTap
 
-      case _ => TestTapFactory(
-        this,
-        new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] (),
-        SinkMode.REPLACE
-      ).createTap(readOrWrite) //super.createTap(readOrWrite)(mode)
+      case _ =>
+        if(sourceFields.isDefined) {
+          TestTapFactory(
+            this,
+            sourceFields.get,
+            sinkMode
+          ).createTap(readOrWrite) //super.createTap(readOrWrite)(mode)
+        } else {
+          TestTapFactory(
+            this,
+            hCatScheme.getOrElse(new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] ())
+          ).createTap(readOrWrite)
+        }
     }
   }
 

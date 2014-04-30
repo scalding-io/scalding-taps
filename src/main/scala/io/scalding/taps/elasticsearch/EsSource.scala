@@ -99,7 +99,11 @@ case class EsSource(
   override def createTap(readOrWrite: AccessMode)(implicit mode: Mode): Tap[_, _, _] = {
     mode match {
       case Local(_) | Hdfs(_, _) => createEsTap
-      case _ => TestTapFactory(this, localScheme, SinkMode.REPLACE).createTap(readOrWrite)
+      case _ =>
+        if(fields.isDefined)
+          TestTapFactory(this, fields.get, SinkMode.REPLACE).createTap(readOrWrite)
+        else
+          TestTapFactory(this, localScheme, SinkMode.REPLACE).createTap(readOrWrite)
     }
   }
 }
