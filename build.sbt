@@ -2,14 +2,14 @@ name := "scalding-taps"
 
 organization := "io.scalding"
 
-version := "0.5"
+version := "0.6"
 
 scalaVersion := "2.10.2"
 
 libraryDependencies ++= Seq(
     "org.elasticsearch" % "elasticsearch-hadoop" % "1.3.0.M3",
     "com.ebay" % "cascading-hive" % "0.0.2-SNAPSHOT",
-    "com.twitter" %% "scalding-core" % "0.8.11",
+    "com.twitter" %% "scalding-core" % "0.9.1",
     "org.apache.hadoop" % "hadoop-common" % "2.0.0-cdh4.3.1",
     "org.apache.hadoop" % "hadoop-core" % "2.0.0-mr1-cdh4.3.1",
     "cascading" % "cascading-core" % "2.5.2",

@@ -4,9 +4,11 @@ import com.twitter.scalding._
 import cascading.hcatalog.{HCatTap, HCatScheme}
 import cascading.tap.{Tap, SinkMode}
 import cascading.tuple.Fields
-import com.twitter.scalding.Local
-import cascading.scheme.Scheme
+import cascading.scheme.{NullScheme, Scheme}
 import org.apache.hadoop.mapred._
+import com.twitter.scalding.Hdfs
+import com.twitter.scalding.Local
+import scala.Some
 
 case class HiveSource(
                   table: String,
@@ -34,7 +36,11 @@ case class HiveSource(
     mode match {
       case Local(_) | Hdfs(_, _) => createHCatTap
 
-      case _ => super.createTap(readOrWrite)(mode)
+      case _ => TestTapFactory(
+        this,
+        new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] (),
+        SinkMode.REPLACE
+      ).createTap(readOrWrite) //super.createTap(readOrWrite)(mode)
     }
   }
 
