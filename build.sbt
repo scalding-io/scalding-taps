@@ -6,6 +6,8 @@ version := "0.5"
 
 scalaVersion := "2.10.2"
 
+net.virtualvoid.sbt.graph.Plugin.graphSettings
+
 libraryDependencies ++= Seq(
     "org.elasticsearch" % "elasticsearch-hadoop" % "1.3.0.M3",
     "com.ebay" % "cascading-hive" % "0.0.2-SNAPSHOT",
@@ -20,6 +22,8 @@ libraryDependencies ++= Seq(
     "org.scalatest" %% "scalatest" % "2.1.0" % "test",
     "com.novocode" % "junit-interface" % "0.9" % "test"
 )
+
+dependencyOverrides += "com.esotericsoftware.kryo" % "kryo" % "2.17"
 
 resolvers ++= Seq(
   "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
