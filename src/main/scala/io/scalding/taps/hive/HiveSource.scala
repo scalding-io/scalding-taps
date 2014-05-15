@@ -5,8 +5,11 @@ import cascading.hcatalog.{HCatTap, HCatScheme}
 import cascading.tap.{Tap, SinkMode}
 import cascading.tuple.Fields
 import com.twitter.scalding.Local
-import cascading.scheme.Scheme
+import cascading.scheme.{NullScheme, Scheme}
 import org.apache.hadoop.mapred._
+import java.util.Properties
+import java.io.{OutputStream, InputStream}
+import org.elasticsearch.hadoop.cascading.lingual.EsFactory.EsScheme
 
 case class HiveSource(
                   table: String,
@@ -18,6 +21,11 @@ case class HiveSource(
                   sourceFields : Option[Fields] = None
                   ) extends Source {
 
+  // To support tests
+  override def localScheme = sourceFields match {
+    case Some(fields) => new EsScheme(fields)
+    case None => new NullScheme[Properties, InputStream, OutputStream, Any, Any] ()
+  }
   def createHCatTap : Tap[_, _, _] =
     new HCatTap(
       db.getOrElse(null),

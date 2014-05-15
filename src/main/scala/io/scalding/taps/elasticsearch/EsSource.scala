@@ -11,6 +11,8 @@ import ConfigurationOptions._
 import scala.collection.JavaConversions._
 import java.io.{InputStream, OutputStream}
 import cascading.scheme.{NullScheme, Scheme}
+import org.elasticsearch.hadoop.cascading.lingual.EsFactory.EsScheme
+import com.twitter.maple.tap.MemorySourceTap.MemorySourceScheme
 
 
 object EsSource {
@@ -48,7 +50,10 @@ case class EsSource(
     Some(toOverride)
   }
 
-  override def localScheme = new NullScheme[Properties, InputStream, OutputStream, Any, Any] ()
+  override def localScheme = fields match {
+    case Some(schemaFields) => TestTapFactory(schemaFields)
+    case None => new NullScheme[Properties, InputStream, OutputStream, Any, Any] ()
+  }
 
   def withPort(port: Int): EsSource = copy(esPort = Some(port))
 

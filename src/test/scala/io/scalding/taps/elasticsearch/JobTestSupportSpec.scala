@@ -10,6 +10,9 @@ import io.scalding.taps.elasticsearch.jobtestsupport.WriteToES._
 import com.twitter.scalding.Csv
 import scala.Some
 import io.scalding.taps.elasticsearch.jobtestsupport.{ReadFromES, WriteToES}
+import io.scalding.taps.hive.jobtestsupport.ReadFromHive
+import io.scalding.taps.hive.HiveSource
+import cascading.tap.SinkMode
 
 class JobTestSupportSpec extends FlatSpec with Matchers with TupleConversions with FieldConversions {
 
@@ -65,5 +68,21 @@ class JobTestSupportSpec extends FlatSpec with Matchers with TupleConversions wi
   }
   .run
   .finish
+
+
+  behavior of "HiveTap"
+
+  JobTest(classOf[ReadFromHive].getName)
+    .source[Tuple](HiveSource("table", SinkMode.KEEP),
+      sampleInputData.map(l => new Tuple(l: _*)))
+    .sink[Tuple](Csv("output.csv")) {
+      outputBuffer => {
+        it should "support test mode" in {
+          assert(outputBuffer.size == sampleInputData.size)
+        }
+      }
+    }
+    .run
+    .finish
 
 }
