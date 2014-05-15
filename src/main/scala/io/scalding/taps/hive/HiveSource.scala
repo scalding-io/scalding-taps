@@ -10,6 +10,7 @@ import org.apache.hadoop.mapred._
 import java.util.Properties
 import java.io.{OutputStream, InputStream}
 import org.elasticsearch.hadoop.cascading.lingual.EsFactory.EsScheme
+import io.scalding.taps.testsupport.TestTapFactory
 
 case class HiveSource(
                   table: String,
@@ -21,11 +22,8 @@ case class HiveSource(
                   sourceFields : Option[Fields] = None
                   ) extends Source {
 
-  // To support tests
-  override def localScheme = sourceFields match {
-    case Some(fields) => new EsScheme(fields)
-    case None => new NullScheme[Properties, InputStream, OutputStream, Any, Any] ()
-  }
+  val noScheme : Scheme[JobConf, RecordReader[_, _], OutputCollector[_, _], _, _] = new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] ()
+
   def createHCatTap : Tap[_, _, _] =
     new HCatTap(
       db.getOrElse(null),
@@ -42,7 +40,11 @@ case class HiveSource(
     mode match {
       case Local(_) | Hdfs(_, _) => createHCatTap
 
-      case _ => super.createTap(readOrWrite)(mode)
+      case _ =>
+        if(sourceFields.isDefined)
+          TestTapFactory(this, sourceFields.get, SinkMode.REPLACE).createTap(readOrWrite)
+        else
+          TestTapFactory(this, noScheme, SinkMode.REPLACE).createTap(readOrWrite)
     }
   }
 

@@ -1,7 +1,7 @@
 package io.scalding.taps.elasticsearch
 
 import com.twitter.scalding._
-import cascading.tap.Tap
+import cascading.tap.{SinkMode, Tap}
 import com.twitter.scalding.Local
 import org.elasticsearch.hadoop.cascading.{CascadingFieldExtractor, EsTap}
 import cascading.tuple.Fields
@@ -13,6 +13,11 @@ import java.io.{InputStream, OutputStream}
 import cascading.scheme.{NullScheme, Scheme}
 import org.elasticsearch.hadoop.cascading.lingual.EsFactory.EsScheme
 import com.twitter.maple.tap.MemorySourceTap.MemorySourceScheme
+import io.scalding.taps.testsupport.TestTapFactory
+
+import org.apache.hadoop.mapred.JobConf
+import org.apache.hadoop.mapred.OutputCollector
+import org.apache.hadoop.mapred.RecordReader
 
 
 object EsSource {
@@ -50,10 +55,7 @@ case class EsSource(
     Some(toOverride)
   }
 
-  override def localScheme = fields match {
-    case Some(schemaFields) => TestTapFactory(schemaFields)
-    case None => new NullScheme[Properties, InputStream, OutputStream, Any, Any] ()
-  }
+  val noScheme : Scheme[JobConf, RecordReader[_, _], OutputCollector[_, _], _, _] = new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] ()
 
   def withPort(port: Int): EsSource = copy(esPort = Some(port))
 
@@ -103,7 +105,11 @@ case class EsSource(
   override def createTap(readOrWrite: AccessMode)(implicit mode: Mode): Tap[_, _, _] = {
     mode match {
       case Local(_) | Hdfs(_, _) => createEsTap
-      case _ => super.createTap(readOrWrite)(mode)
+      case _ =>
+        if(fields.isDefined)
+          TestTapFactory(this, fields.get, SinkMode.REPLACE).createTap(readOrWrite)
+        else
+          TestTapFactory(this, noScheme, SinkMode.REPLACE).createTap(readOrWrite)
     }
   }
 }
