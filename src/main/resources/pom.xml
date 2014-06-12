@@ -18,6 +18,7 @@
         <name>io.scalding</name>
     </organization>
     <url>https://github.com/scalding-io/scalding-taps</url>
+
     <licenses>
         <license>
             <name>Apache 2</name>
@@ -26,6 +27,7 @@
             <comments>A business-friendly OSS license</comments>
         </license>
     </licenses>
+
     <developers>
         <developer>
             <id>galarragas</id>
@@ -43,18 +45,17 @@
             <name>Conjars Repository</name>
             <url>http://conjars.org/repo</url>
         </repository>
-
         <repository>
             <id>SonatypeOss</id>
             <url>https://oss.sonatype.org/content/repositories/snapshots</url>
         </repository>
-
     </repositories>
 
     <properties>
     </properties>
 
     <dependencies>
+
         <!-- Scala -->
         <dependency>
             <groupId>org.scala-lang</groupId>
@@ -62,6 +63,7 @@
             <version>2.10.3</version>
         </dependency>
 
+        <!-- Scalding -->
         <dependency>
             <groupId>com.twitter</groupId>
             <artifactId>scalding-core_2.10</artifactId>
@@ -77,6 +79,21 @@
             <artifactId>scalding-date_2.10</artifactId>
             <version>0.10.0</version>
         </dependency>
+
+        <!-- Elastic Search Hadoop -->
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch-hadoop</artifactId>
+            <version>2.0.0</version>
+        </dependency>
+
+        <!-- HIVE -->
+        <dependency>
+            <groupId>com.ebay</groupId>
+            <artifactId>cascading-hive</artifactId>
+            <version>0.0.2-SNAPSHOT</version>
+        </dependency>
+
     </dependencies>
 
 </project>
