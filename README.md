@@ -41,3 +41,11 @@ As an example for Maven
     </dependencies>
 ```
 
+For latest Scalding 0.10.0 version use 
+
+     <dependency>
+          <groupId>io.scalding</groupId>
+          <artifactId>scalding-taps_2.10</artifactId>
+          <version>0.6_scalding0.10</version>
+     </dependency>
+     
