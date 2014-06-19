@@ -41,10 +41,16 @@ case class HiveSource(
       case Local(_) | Hdfs(_, _) => createHCatTap
 
       case _ =>
-        if(sourceFields.isDefined)
-          TestTapFactory(this, sourceFields.get, SinkMode.REPLACE).createTap(readOrWrite)
-        else
-          TestTapFactory(this, noScheme, SinkMode.REPLACE).createTap(readOrWrite)
+        (sourceFields, hCatScheme) match {
+          case (_, Some(scheme)) =>
+            readOrWrite match {
+              case Read =>  TestTapFactory(this, scheme.getSourceFields, SinkMode.REPLACE).createTap(readOrWrite)
+              case Write =>  TestTapFactory(this, scheme.getSinkFields, SinkMode.REPLACE).createTap(readOrWrite)
+            }
+
+          case (Some(fields), None) => TestTapFactory(this, fields, SinkMode.REPLACE).createTap(readOrWrite)
+          case _ => TestTapFactory(this, noScheme, SinkMode.REPLACE).createTap(readOrWrite)
+        }
     }
   }
 
