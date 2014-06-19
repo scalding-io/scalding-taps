@@ -49,6 +49,14 @@ case class EsSource(
     Some(toOverride)
   }
 
+  private def asProperties(props: Map[String, String]): Properties = {
+    val result = new Properties()
+
+    props foreach { entry => result.setProperty(entry._1, entry._2) }
+
+    result
+  }
+
   val localScheme : Scheme[JobConf, RecordReader[_, _], OutputCollector[_, _], _, _] = new NullScheme[JobConf, RecordReader[_, _], OutputCollector[_, _], Any, Any] ()
 
   def withPort(port: Int): EsSource = copy(esPort = Some(port))
@@ -64,6 +72,10 @@ case class EsSource(
   def withOverrideSettings(overrides: Properties) : EsSource = copy(
     settings = overrideSettings { baseSettings => baseSettings.putAll(overrides) }
   )
+
+  def withSettings(settings: Map[String, String]): EsSource = withSettings( asProperties(settings) )
+
+  def withOverrideSettings(overrides: Map[String, String]) : EsSource = withOverrideSettings( asProperties(overrides) )
 
   def withWriteMode(writeMode: EsWriteMode): EsSource = copy(settings = overrideSettings {
     _.setProperty(ES_WRITE_OPERATION, writeMode.writeOperationParam)
@@ -90,6 +102,14 @@ case class EsSource(
           mappingParentExtractorClassName.foreach {
             extractorClass => props.setProperty(ES_MAPPING_PARENT_EXTRACTOR_CLASS, extractorClass)
           }
+      }
+    )
+
+  def withJsonInput(isJson: Boolean = true): EsSource =
+    copy(
+      settings = overrideSettings {
+        props =>
+           props.setProperty(ES_INPUT_JSON, if(isJson) "yes" else "no")
       }
     )
 
