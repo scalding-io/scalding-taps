@@ -23,5 +23,6 @@ libraryDependencies ++= Seq(
 resolvers ++= Seq(
   "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
   "Conjars" at "http://conjars.org/repo",
-  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+  "Cloudera CHH4 Maven Repository" at "https://repository.cloudera.com/artifactory/cloudera-repos/"
 )
